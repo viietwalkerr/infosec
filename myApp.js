@@ -7,18 +7,18 @@ const app = express();
  * Hackers exploit vulnerabilities in Express/Node
  * This hides the X-Powered-By: Express header
  */
-app.use(helmet.hidePoweredBy());
+// app.use(helmet.hidePoweredBy());
 
 /**
  * Page could be put in <frame> or <iframe> tags which can cause users
  * to click hidden buttons set by hacker (puts a layer over page)
  */
-app.use(helmet.frameguard({action: 'deny'}));
+// app.use(helmet.frameguard({action: 'deny'}));
 
 /**
  * xssFilter() is used to neutralize Cross Site Scripting (XSS)
  */
-app.use(helmet.xssFilter());
+// app.use(helmet.xssFilter());
 
 /**
  * Browsers can use content or MIME sniffing to override response "Content-Type"
@@ -26,7 +26,7 @@ app.use(helmet.xssFilter());
  * Middleware sets X-Content-Type-Options header to nosniff instructing
  * the browser to NOT bypass provided Content-Type
  */
-app.use(helmet.noSniff());
+// app.use(helmet.noSniff());
 
 /**
  * This middleware set the X-Download-Options header to noopen. This will prevent
@@ -34,7 +34,7 @@ app.use(helmet.noSniff());
  * (Some versions of IE by default open untrusted HTML which can execute 
  * unintended functions)
  */
-app.use(helmet.ieNoOpen());
+// app.use(helmet.ieNoOpen());
 
 /**
  * HTTP Strict Transport Security (HSTS) is a web security policy which helps 
@@ -45,10 +45,10 @@ app.use(helmet.ieNoOpen());
  * of time. This will work for the request coming after the initial request.
  */
 var ninetyDaysInSeconds = 90*24*60*60;
-app.use(helmet.hsts({
-  maxAge: ninetyDaysInSeconds,
-  force: true 
-}));
+// app.use(helmet.hsts({
+//   maxAge: ninetyDaysInSeconds,
+//   force: true 
+// }));
 
 /**
  * Disable DSN Prefetching:
@@ -59,12 +59,12 @@ app.use(helmet.hsts({
  * page statistics alteration (some links may appear visited even if not).
  * Disabling DNS prefetching increases security, at the cost of performance.
  */
-app.use(helmet.dnsPrefetchControl());
+// app.use(helmet.dnsPrefetchControl());
 
 /**
  * Disables cache to ensure most recent changes appear on web app
  */
-app.use(helmet.noCache());
+// app.use(helmet.noCache());
 
 /**
  * Set Content Security Policy
@@ -82,12 +82,32 @@ app.use(helmet.noCache());
  * directive as fallback. Helmet supports both defaultSrc and default-src naming
  * styles. Fallback applies for most of the unspecified directives.
  */
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", 'trusted-cdn.com']
-  }
-}));
+// app.use(helmet.contentSecurityPolicy({
+//   directives: {
+//     defaultSrc: ["'self'"],
+//     scriptSrc: ["'self'", 'trusted-cdn.com']
+//   }
+// }));
+
+/**
+ * app.use(helmet()) will automatically include all the middleware introduced above,
+ * except noCache() and contentSecurityPolicy(). These can be enabled if necessary.
+ * You can also disable or configure any other middleware individually using a
+ * configuration object. Example of all code above in a configuration object:
+ */
+app.use(helmet({
+  frameguard: {
+    action: 'deny'
+  },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ['style.com'],
+    }
+  },
+  dnsPreFetchControl: false,
+  noCache: true,
+}))
 
 
 
