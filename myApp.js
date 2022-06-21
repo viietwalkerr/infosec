@@ -7,7 +7,7 @@ const app = express();
  * Hackers exploit vulnerabilities in Express/Node
  * This hides the X-Powered-By: Express header
  */
-helmet.hidePoweredBy();
+app.use(helmet.hidePoweredBy());
 
 
 
