@@ -50,6 +50,17 @@ app.use(helmet.hsts({
   force: true 
 }));
 
+/**
+ * Disable DSN Prefetching:
+ * To improve performance most browsers prefetch DNS records for all the links
+ * in a page. That way the destination IP is already known when the user clicks
+ * a link. Leads to: Over-use of DNS service(millions of users), privacy issues
+ * (one eavesdropper could infer that you are on a certain page), or 
+ * page statistics alteration (some links may appear visited even if not).
+ * Disabling DNS prefetching increases security, at the cost of performance.
+ */
+app.use(helmet.dnsPrefetchControl());
+
 
 
 
