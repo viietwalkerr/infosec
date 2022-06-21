@@ -36,6 +36,19 @@ app.use(helmet.noSniff());
  */
 app.use(helmet.ieNoOpen());
 
+/**
+ * HTTP Strict Transport Security (HSTS) is a web security policy which helps 
+ * protect websites against protocol downgrade attacks and cookie hijacking.
+ * If your website can be accessed via HTTPS you can ask the user's browser to
+ * avoid using insecure HTTP. By setting the header Strict-Transport-Security
+ * you tell the browsers to use HTTPS for future requests in a specified amount
+ * of time. This will work for the request coming after the initial request.
+ */
+var ninetyDaysInSeconds = 90*24*60*60;
+app.use(helmet.hsts({
+  maxAge: ninetyDaysInSeconds,
+  force: true 
+}));
 
 
 
