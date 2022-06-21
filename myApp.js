@@ -9,6 +9,12 @@ const app = express();
  */
 app.use(helmet.hidePoweredBy());
 
+/**
+ * Page could be put in <frame> or <iframe> tags which can cause users
+ * to click hidden buttons set by hacker (puts a layer over page)
+ */
+app.use(helmet.frameguard({action: 'deny'}));
+
 
 
 
