@@ -66,6 +66,29 @@ app.use(helmet.dnsPrefetchControl());
  */
 app.use(helmet.noCache());
 
+/**
+ * Set Content Security Policy
+ * Promising new defense that significantly reduces the risk and impact of 
+ * MANY type of attacks in modern browser. Prevents injection of anything 
+ * unintented on page. Protect from XSS vulns, undesired tracking,
+ * malicious frames and more. Defines allowed list of trusted content sources.
+ * Configurable for each kind of resource a web page needs: scripts, stylesheets
+ * fonts, frames, media and more).
+ * 
+ * Multiple directives available, so website owner can have granular control.
+ * See HTML 5 Rocks, KeyCDN for more details. CSP unsupported by older browsers.
+ * 
+ * By Default directives are wide open, so it's important to set defaultSrc 
+ * directive as fallback. Helmet supports both defaultSrc and default-src naming
+ * styles. Fallback applies for most of the unspecified directives.
+ */
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    scriptSrc: ('self', 'trusted-cdn.com')
+  }
+}));
+
 
 
 
