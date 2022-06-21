@@ -1,8 +1,13 @@
 const express = require('express');
+const helmet = require('helmet');
 const app = express();
 
-const helmet = require('helmet');
-
+/**
+ * Use to hide X-Powered-By header
+ * Hackers exploit vulnerabilities in Express/Node
+ * This hides the X-Powered-By: Express header
+ */
+helmet.hidePoweredBy();
 
 
 
