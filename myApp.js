@@ -1,4 +1,5 @@
 const express = require('express');
+const { xssFilter } = require('helmet');
 const helmet = require('helmet');
 const app = express();
 
@@ -15,8 +16,10 @@ app.use(helmet.hidePoweredBy());
  */
 app.use(helmet.frameguard({action: 'deny'}));
 
-
-
+/**
+ * xssFilter() is used to neutralize Cross Site Scripting (XSS)
+ */
+app.use(xssFilter());
 
 
 
