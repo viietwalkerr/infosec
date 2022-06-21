@@ -1,5 +1,4 @@
 const express = require('express');
-const { xssFilter } = require('helmet');
 const helmet = require('helmet');
 const app = express();
 
@@ -19,7 +18,7 @@ app.use(helmet.frameguard({action: 'deny'}));
 /**
  * xssFilter() is used to neutralize Cross Site Scripting (XSS)
  */
-app.use(xssFilter());
+app.use(helmet.xssFilter());
 
 /**
  * Browsers can use content or MIME sniffing to override response "Content-Type"
@@ -29,7 +28,13 @@ app.use(xssFilter());
  */
 app.use(helmet.noSniff());
 
-
+/**
+ * This middleware set the X-Download-Options header to noopen. This will prevent
+ * IE users from executing downloads in the trusted site's context.
+ * (Some versions of IE by default open untrusted HTML which can execute 
+ * unintended functions)
+ */
+app.use(helmet.ieNoOpen());
 
 
 
