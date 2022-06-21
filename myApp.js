@@ -61,6 +61,11 @@ app.use(helmet.hsts({
  */
 app.use(helmet.dnsPrefetchControl());
 
+/**
+ * Disables cache to ensure most recent changes appear on web app
+ */
+app.use(helmet.noCache());
+
 
 
 
