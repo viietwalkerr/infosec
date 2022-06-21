@@ -21,6 +21,14 @@ app.use(helmet.frameguard({action: 'deny'}));
  */
 app.use(xssFilter());
 
+/**
+ * Browsers can use content or MIME sniffing to override response "Content-Type"
+ * headers to guess and process data using implicit content type.
+ * Middleware sets X-Content-Type-Options header to nosniff instructing
+ * the browser to NOT bypass provided Content-Type
+ */
+app.use(helmet.noSniff());
+
 
 
 
